@@ -13,7 +13,6 @@ let windowHeight = _getSystemInfoSync().windowHeight;
  * ESetHeader、ESetFooter、ERefreshStart、ERefreshEnd、
  */
 export default class EContent extends Taro.Component {
-
   static options = {
     addGlobalClass: true
   };
@@ -21,10 +20,12 @@ export default class EContent extends Taro.Component {
   constructor() {
     super(...arguments);
     this.state = {
-      dragStyle: { //下拉框的样式
+      dragStyle: {
+        //下拉框的样式
         top: "0px"
       },
-      downDragStyle: { //下拉图标的样式
+      downDragStyle: {
+        //下拉图标的样式
         height: "0px"
       },
       textStatus: 0,
@@ -84,10 +85,10 @@ export default class EContent extends Taro.Component {
   }
 
   /**
-  * 触发加载更多
-  *
-  * @memberof Content
-  */
+   * 触发加载更多
+   *
+   * @memberof Content
+   */
   onScrollToLower = () => {
     throttle({
       method: () => {
@@ -98,7 +99,8 @@ export default class EContent extends Taro.Component {
     });
   };
 
-  onScrollToUpper = () => {//滚动到顶部事件
+  onScrollToUpper = () => {
+    //滚动到顶部事件
     // console.log('滚动到顶部事件')
   };
   onScroll = e => {
@@ -206,7 +208,7 @@ export default class EContent extends Taro.Component {
     const move_p = e.touches[0]; // 移动时的位置
     const move_x = move_p.clientX;
     const move_y = move_p.clientY;
-    const deviationX = 0.30; // 左右偏移量(超过这个偏移量不执行下拉操作)
+    const deviationX = 0.3; // 左右偏移量(超过这个偏移量不执行下拉操作)
 
     //得到偏移数值
     let dev = Math.abs(move_x - start_x) / Math.abs(move_y - start_y);
@@ -330,17 +332,35 @@ export default class EContent extends Taro.Component {
   };
 
   render() {
-    const { dragStyle, downDragStyle, dragComplete, textStatus,
-      footerHeight, headerHeight, isRefreshing, focus } = this.state;
-    const { loading, hasMore, noMore, onScrollToLower, children, loadMoreThreshold, hasMoreText, noMoreText } = this.props;
+    const {
+      dragStyle,
+      downDragStyle,
+      dragComplete,
+      textStatus,
+      footerHeight,
+      headerHeight,
+      isRefreshing,
+      focus
+    } = this.state;
+    const {
+      loading,
+      hasMore,
+      noMore,
+      onScrollToLower,
+      children,
+      loadMoreThreshold,
+      hasMoreText,
+      noMoreText,
+      tabBarHeight
+    } = this.props;
 
     const bottom = noMore ? <View className="no-more">{noMoreText || '没有更多了'}</View> : hasMore ? <View className="load-more">{hasMoreText || '加载中'}</View> : null;
 
-    let tabBarBottom = 0;
+    let tabBarBottom = tabBarHeight || 0;
 
     {
       if (document.querySelector('.taro-tabbar__tabbar-bottom')) {
-        tabBarBottom = document.querySelector('.taro-tabbar__tabbar-bottom').clientHeight;
+        tabBarBottom = tabBarHeight || document.querySelector('.taro-tabbar__tabbar-bottom').clientHeight;
       }
     }
 
@@ -354,7 +374,7 @@ export default class EContent extends Taro.Component {
         <ScrollView style={dragStyle} onTouchMove={this.touchmove} onTouchEnd={this.touchEnd} onTouchStart={this.touchStart} onScrollToUpper={this.onScrollToUpper} onScrollToLower={this.onScrollToLower} onScroll={this.onScroll} lowerThreshold={loadMoreThreshold >= 0 ? loadMoreThreshold : 100} enableBackToTop className="scroll-content" scrollY scrollWithAnimation scrollTop={this.scrollTop}>
           {children}
           {bottom}
-          {focus ? <View className="keyboard"></View> : ""}
+          {focus ? <View className="keyboard"></View> : ''}
         </ScrollView>
       </View>;
   }

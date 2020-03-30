@@ -1,16 +1,15 @@
-import Taro, { Component } from '@tarojs/taro'
-import { View } from '@tarojs/components'
-import PropTypes from 'prop-types'
+import Taro, { Component } from '@tarojs/taro';
+import { View } from '@tarojs/components';
+import PropTypes from 'prop-types';
 
-import EHeader from '../EHeader/EHeader'
-import EContent from '../EContent/EContent'
-import EFooter from '../EFooter/EFooter'
+import EHeader from '../EHeader/EHeader';
+import EContent from '../EContent/EContent';
+import EFooter from '../EFooter/EFooter';
 
 export default class EPage extends Component {
-
   static options = {
-    addGlobalClass: true
-  }
+    addGlobalClass: true,
+  };
 
   render() {
     return (
@@ -29,10 +28,13 @@ export default class EPage extends Component {
           refreshStatus={this.props.refreshStatus}
           refresherConfig={this.props.refresherConfig || {}}
           scrollTop={this.props.scrollTop}
-        >{this.props.children}</EContent>
+          tabBarHeight={this.props.tabBarHeight}
+        >
+          {this.props.children}
+        </EContent>
         <EFooter>{this.props.renderFooter}</EFooter>
       </View>
-    )
+    );
   }
 }
 
@@ -52,10 +54,11 @@ EPage.propTypes = {
   hasMoreText: PropTypes.string,
   refreshStatus: PropTypes.number,
   refresherConfig: PropTypes.shape({
-      recoverTime:  PropTypes.number,
-      refreshTime: PropTypes.number,
-      threshold: PropTypes.number,
-      maxHeight: PropTypes.number,
-      height: PropTypes.number
-  })
-}
+    recoverTime: PropTypes.number,
+    refreshTime: PropTypes.number,
+    threshold: PropTypes.number,
+    maxHeight: PropTypes.number,
+    height: PropTypes.number,
+  }),
+  tabBarHeight: PropTypes.number,
+};
